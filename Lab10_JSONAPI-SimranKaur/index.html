@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Lab8 JSON</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script 
+	async
+	defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVo9EQucAxyM63SVVf033k3l24ninevOc&callback=initMap"
+  ></script>
+  <script src="thirdpartyapi.js" async defer></script>
+  <link
+	rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous"
+  />
+  <link
+	href="https://fonts.googleapis.com/css2?family=Anton&family=Galada&display=swap"
+	rel="stylesheet"
+  />
+	<link href="css/normalize.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+	<header>
+<h2>Simran kaur 200430441</h2>
+	</header>
+	<section>
+	
+	
+	</section>
+	<footer>
+<section class="row">
+	<p id="location"></p>
+	<div id="map"></div>
+</section>
+	</footer>
+	<script>
+		
+		let header = document.querySelector('header');
+		let section = document.querySelector('section');
+
+		
+
+		let requestURL = 'https://SimranKaur2628.github.io/lab8_json/products.json';
+
+		 
+		let request = new XMLHttpRequest(); 
+
+		 
+		request.open('GET', requestURL); 
+		
+
+		request.responseType = 'json'; 
+
+		
+		request.send();
+
+		 
+		request.onload = function() {
+			let iScreamInc = request.response; 
+			console.log(iScreamInc); 
+			populateHeader(iScreamInc); 
+			topDeals(iScreamInc); 
+		}
+
+		function populateHeader(jsonObj) {
+			let headerH1 = document.createElement('h1'); 
+			headerH1.textContent = jsonObj['companyName'];
+			header.appendChild(headerH1); 
+			let headerPara = document.createElement('p'); 
+			headerPara.textContent = jsonObj['headOffice']; 
+			header.appendChild(headerPara); 
+		}
+
+		function topDeals(jsonObj) {
+			let topDeals = jsonObj['topDeals']; 
+			for(let i = 0; i < topDeals.length; i++) {
+				let article = document.createElement('article');
+				let h2 = document.createElement('h2'); 
+				let img = document.createElement('img'); 
+				let p1 = document.createElement('p'); 
+				let p2 = document.createElement('p'); 
+				let list = document.createElement('ul'); 
+
+				img.setAttribute('src', 'images/' + topDeals[i].image); 
+				img.setAttribute('alt', topDeals[i].name);
+				h2.textContent = 'Name: ' +topDeals[i].name;
+				p1.textContent = 'Price: $' +topDeals[i].price;
+				p2.textContent = 'Description: ' +topDeals[i].description; 
+				
+				let features = topDeals[i].features;
+				for(let j = 0; j < features.length; j++ ) {
+					let listItem = document.createElement('li'); 
+					listItem.textContent = features[j]; 
+					list.appendChild(listItem); 
+				}
+
+				article.appendChild(img);
+				article.appendChild(h2); 
+				article.appendChild(p1); 
+				article.appendChild(p2); 
+				article.appendChild(list); 
+				section.appendChild(article); 
+			}
+		}
+		
+		
+    
+    
+		</script>
+	</body>
+</html>
